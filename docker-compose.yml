@@ -1,0 +1,24 @@
+version: "3"
+services:
+  mysql:
+    container_name: test5_mysql_mysqlcontainer
+    build: ./docker/mysql
+    image: test5_mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+  java:
+    container_name: test5_java_javacontainer
+    build: .
+    image: test5_java
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    environment:
+      url: jdbc:mysql://192.168.99.100:3306/sakila
+      username: root
+      password: admin
